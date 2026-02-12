@@ -62,6 +62,23 @@ $(document).ready(function () {
         //Update text to selected month
         let selectedMonth = $(this).text();
         $('#selectedMonth').text(selectedMonth);
+
+        //POST SELECTED MONTH
+        $.post('/orders', { month: selectedMonth }, function(returnedInfo) {
+            
+            //DEBUGGING INFO
+            console.log("RETURNED INFO IS: ", returnedInfo);
+
+            //FORMAT ORDER INFO
+            let monthlyDisplayInfo = '<ul>';
+            returnedInfo.orderInfo.forEach(order => {
+                monthlyDisplayInfo += `<li>${order.topping}: ${order.quantity} </li>`;
+            });
+            monthlyDisplayInfo += '</ul>';
+
+            //DISPLAY ORDER INFO
+            $('#monthlyOrderInfo').html(monthlyDisplayInfo);
+        });
     });
 
 });
